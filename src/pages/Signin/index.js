@@ -1,20 +1,40 @@
 import React, { useState } from "react";
-import GlobalStyle from './style';
-import Button from "../../componets/Button";
+import GlobalStyle from './styles';
 import {Link,useNavigate} from "react-router-dom";
-import userAuth from "../../hooks/userAuth";
-import Input from "../../componets/Input"
+import AuthProvider from "../../hooks/useAuth";
+
+
 const Signin= ()=>{
+
+  const {signin}=AuthProvider();
+  const navigate= useNavigate();
+
 
   const [email,setEmail]= useState("");
   const [senha,setSenha]=useState("");
   const [error,setError]=useState("");
+
+  const handLogin=()=>{
+    if(!email | !senha){
+      setError("Please enter your credentials")
+      return;
+    };
+    const res=signin(email,senha)
+    if (res){
+      setError(res);
+      return;
+    }
+
+    navigate("/home");
+
+  };
+
     return(
       <div className='container'>
           <GlobalStyle></GlobalStyle>
   
 
-    <div className="form">
+    <div className="form"> 
     <div className="title">Welcome</div>
     <div className="subtitle">Please insert yours credetions</div>
     <div className="input-container ic1">
@@ -27,13 +47,14 @@ const Signin= ()=>{
   
     <div className="input-container ic2">
     
-      <input id="password" className="input" type="password" placeholder=" " onChange={(e)=>[setEmail(e.target.value),setError("")]}   />
+      <input id="password" className="input" type="password" placeholder=" " onChange={(e)=>[setSenha(e.target.value),setError("")]}   />
       <div className="cut cut-short"></div>
       <label for="password" className="placeholder" type="text">Password</label>
     </div>
-    
+
+    <p className="error_field">{error}</p>
     <div className="signup"><p>Don't have account ?<Link to="/signup">Signup</Link></p></div>
-    <button type="text" className="submit">Enter</button>
+    <button type="text" className="submit" onClick={handLogin}>Enter</button>
   
   </div>
   
