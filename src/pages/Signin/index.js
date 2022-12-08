@@ -15,10 +15,17 @@ const Signin= ()=>{
   const [error,setError]=useState("");
 
   const handLogin=()=>{
+    const pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+    const EmailVal=email;
     if(!email | !senha){
       setError("Please enter your credentials")
       return;
     };
+    setEmail(EmailVal);
+    if (!email.match(pattern)){
+      setError("Email invalid")
+    }
     const res=signin(email,senha)
     if (res){
       setError(res);

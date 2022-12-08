@@ -15,11 +15,20 @@ const Signup = () => {
   const { signup } = useAuth();
 
   const handleSignup = () => {
+    const pattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+
+    const EmailVal=email;
+    setEmail(EmailVal);
     if (!email | !emailConf | !senha) {
       setError("Please enter your credentials");
       return;
-    } else if (email !== emailConf) {
-      setError("Email already using");
+    } 
+    if (!email.match(pattern)){
+      setError("Email invalid")
+      return
+    }
+    else if (email !== emailConf) {
+      setError("Invalid email confirmation");
       return;
     }
 
